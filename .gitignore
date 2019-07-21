@@ -2,3 +2,4 @@ assets/
 .idea/
 tmp/
 *.log
+.env
