@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ./.env
+source .env
 
 vboxmanage startvm ${MACHINE_NAME} --type headless
 
