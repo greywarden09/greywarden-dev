@@ -1,0 +1,13 @@
+- name: create GitLab container
+  docker_container:
+    name: gitlab
+    image: gitlab/gitlab-ce
+    restart_policy: always
+    state: started
+    volumes:
+      - gitlab-data:/var/opt/gitlab
+      - gitlab-config:/etc/gitlab
+      - gitlab-logs:/var/log/gitlab
+    hostname: gitlab
+    env:
+      GITLAB_OMNIBUS_CONFIG: "external_url '{{ GITLAB_EXTERNAL_URL }}'"
