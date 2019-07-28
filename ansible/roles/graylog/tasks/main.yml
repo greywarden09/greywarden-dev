@@ -1,0 +1,39 @@
+- name: create MongoDB
+  docker_container:
+    name: mongo-graylog
+    image: mongo
+    restart_policy: always
+    state: started
+    volumes:
+      - mongo-graylog-data:/data/db
+    hostname: mongo-graylog
+
+- name: adjust vm.max_map_count value for Elasticsearch
+  sysctl:
+    name: vm.max_map_count
+    value: '262144'
+    state: present
+
+- name: create Elasticsearch
+  docker_container:
+    name: elastic-graylog
+    image: elasticsearch:6.8.1
+    restart_policy: always
+    state: started
+    volumes:
+      - elastic-graylog-data:/usr/share/elasticsearch/data
+      - elastic-graylog-conf:/usr/share/elasticsearch/config
+    env:
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    hostname: elastic-graylog
+
+- name: create Graylog
+  docker_container:
+    name: graylog
+    image: graylog/graylog:3.0
+    restart_policy: always
+    links:
+      - mongo-graylog:mongo
+      - elastic-graylog:elasticsearch
+    state: started
+    hostname: graylog
