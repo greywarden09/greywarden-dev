@@ -5,5 +5,5 @@
     restart_policy: always
     state: started
     volumes:
-      - nexus-data:/nexus-data\
+      - nexus-data:/nexus-data
     hostname: nexus
