@@ -1,0 +1,17 @@
+- import_tasks: prepare.yml
+
+- name: create Nginx reverse proxy
+  docker_container:
+    name: nginx-proxy
+    image: nginx
+    restart_policy: always
+    state: started
+    volumes:
+      - /etc/nginx/conf.d:/etc/nginx/conf.d/
+      - /etc/nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+      - 443:443
+
+- name: reload Nginx
+  shell: docker exec -it nginx-proxy nginx -s reload
