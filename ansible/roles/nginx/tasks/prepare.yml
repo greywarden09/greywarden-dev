@@ -1,0 +1,28 @@
+- name: create Docker internal network
+  docker_network:
+    name: env
+    connected:
+      - nginx-proxy
+      - graylog
+      - gitlab
+      - jenkins
+      - nexus
+
+- name: create directories for configuration
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - ["/etc/nginx", "/etc/nginx/conf.d"]
+
+- name: upload Nginx configuration
+  template:
+    src: templates/nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+
+- name: upload sites configuration files
+  template:
+    src: "{{ item }}"
+    dest: /etc/nginx/conf.d/{{ item | basename | regex_replace('\.j2','') }}
+  with_fileglob:
+    - templates/services/*.conf.j2

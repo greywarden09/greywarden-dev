@@ -1,0 +1,63 @@
+upstream graylog {
+    server graylog:9000;
+}
+upstream graylog-syslog {
+    server graylog:1514;
+}
+upstream graylog-gelf {
+    server graylog:12201;
+}
+
+server {
+    listen 80;
+
+    server_name graylog.{{ DOMAIN }};
+
+    location / {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Server $host;
+        proxy_set_header X-Graylog-Server-URL http://$server_name/;
+
+        proxy_pass http://graylog;
+    }
+
+}
+
+server {
+    listen 80;
+    server_name graylog-syslog.{{ DOMAIN }};
+
+    location / {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Server $host;
+        proxy_set_header X-Graylog-Server-URL http://$server_name/;
+
+        proxy_pass http://graylog-syslog;
+    }
+}
+
+server {
+    listen 80;
+    server_name graylog-gelf.{{ DOMAIN }};
+
+    location / {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Server $host;
+        proxy_set_header X-Graylog-Server-URL http://$server_name/;
+
+        proxy_pass http://graylog-gelf;
+    }
+}
+
