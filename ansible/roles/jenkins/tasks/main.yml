@@ -1,0 +1,8 @@
+- name: create Jenkins container
+  docker_container:
+    name: jenkins
+    image: jenkins/jenkins:lts
+    restart_policy: always
+    state: started
+    volumes:
+      - jenkins_home:/var/jenkins_home
