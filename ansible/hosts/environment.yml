@@ -1,6 +1,5 @@
 environment:
   hosts:
     env:
-      ansible_ssh_host: "{{ HOSTNAME }}"
+      ansible_host: "{{ ANSIBLE_HOST }}"
       ansible_user: "{{ ANSIBLE_USER }}"
-      ansible_ssh_user: "{{ ANSIBLE_SSH_USER }}"

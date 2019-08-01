@@ -13,5 +13,15 @@
       - 80:80
       - 443:443
 
+- name: create Docker internal network
+  docker_network:
+    name: env
+    connected:
+      - nginx-proxy
+      - graylog
+      - gitlab
+      - jenkins
+      - nexus
+
 - name: reload Nginx
-  shell: docker exec -it nginx-proxy nginx -s reload
+  shell: docker exec nginx-proxy nginx -s reload

@@ -1,0 +1,13 @@
+- name: install bind9
+  apt:
+    name:
+      - bind9
+      - bind9utils
+    update_cache: yes
+- name: configure /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ ANSIBLE_HOST }} node.{{ DOMAIN }} node"
+- name: configure /etc/hostname
+  hostname:
+    name: "node.{{ DOMAIN }}"

@@ -1,0 +1,19 @@
+- name: uname -s
+  shell: uname -s
+  ignore_errors: yes
+  register: uname_s
+
+- name: uname -m
+  shell: uname -m
+  ignore_errors: yes
+  register: uname_m
+
+- set_fact:
+    uname_s: "{{ uname_s.stdout }}"
+    uname_m: "{{ uname_m.stdout }}"
+
+- name: install docker-compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.24.1/docker-compose-{{ uname_s }}-{{ uname_m }}
+    dest: /usr/local/bin/docker-compose
+    mode: 755
