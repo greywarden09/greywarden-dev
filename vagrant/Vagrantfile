@@ -1,0 +1,38 @@
+def confirmed(decision)
+  decision.strip == "y" || decision.strip == 'Y' || decision.strip == ""
+end
+
+def has_required_plugin(plugin)
+  unless Vagrant.has_plugin?(plugin)
+    print "#{plugin} is not installed, install? [Yn]: "
+    decision = gets
+    if confirmed(decision)
+      system("vagrant plugin install #{plugin}")
+    else
+      puts "#{plugin} is required"
+      exit
+    end
+  end
+end
+
+def configure_virtualbox(config)
+  config.vm.provider :virtualbox do |vb|
+    vb.memory = ENV['VM_MEMORY']
+    vb.cpus = ENV['VM_CPUS']
+    vb.name = ENV['VM_NAME']
+    vb.customize ["modifyvm", :id, "--vram", ENV['VM_VRAM']]
+  end
+  config.vm.box = ENV['VM_BOX']
+  config.vm.hostname = ENV['HOSTNAME']
+  config.vm.network "private_network", ip: ENV['VM_IP']
+end
+
+Vagrant.configure("2") do |config|
+  config.env.enable
+
+  has_required_plugin('vagrant-env')
+  has_required_plugin('vagrant-vbguest')
+
+  configure_virtualbox(config)
+
+end
