@@ -7,20 +7,20 @@
       - gnupg-agent
       - software-properties-common
     update_cache: yes
+
 - name: add Docker's official GPG key
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
+
 - name: add deb repository
   apt_repository:
     repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
-- name: install Docker and docker-compose
+
+- name: install Docker
   apt:
     name:
       - docker
-      - docker-compose
-- name: add user {{ ansible_user }} to docker group
-  user:
-    name: "{{ ansible_user }}"
-    groups: docker
-    append: yes
+
+- import_tasks: docker-compose.yml
+- import_tasks: configure-user.yml

@@ -1,13 +1,3 @@
-- name: create Docker internal network
-  docker_network:
-    name: env
-    connected:
-      - nginx-proxy
-      - graylog
-      - gitlab
-      - jenkins
-      - nexus
-
 - name: create directories for configuration
   file:
     path: "{{ item }}"
