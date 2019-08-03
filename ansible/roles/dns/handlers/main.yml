@@ -1,0 +1,5 @@
+- name: reboot
+  command: /sbin/reboot
+
+- name: restart bind9
+  command: systemctl bind9 restart

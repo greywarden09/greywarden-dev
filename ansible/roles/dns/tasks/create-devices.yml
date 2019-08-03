@@ -1,0 +1,5 @@
+- name: mknod random and null
+  command: mknod {{ item.localdev }} c 1 {{ item.localvalue }} creates={{ item.localdev }}
+  with_items:
+    - { localdev: '/var/lib/named/dev/null', localvalue: 3 }
+    - { localdev: '/var/lib/named/dev/random', localvalue: 8 }

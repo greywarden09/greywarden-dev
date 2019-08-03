@@ -6,7 +6,13 @@
       - curl
       - gnupg-agent
       - software-properties-common
+      - python3-pip
     update_cache: yes
+
+- name: install required python modules
+  pip:
+    name: docker-py
+    state: present
 
 - name: add Docker's official GPG key
   apt_key:
@@ -19,8 +25,8 @@
 
 - name: install Docker
   apt:
-    name:
-      - docker
+    name: docker-ce
+    update_cache: yes
 
 - import_tasks: docker-compose.yml
 - import_tasks: configure-user.yml
