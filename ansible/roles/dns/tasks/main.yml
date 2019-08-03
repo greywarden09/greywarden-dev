@@ -7,8 +7,47 @@
     regexp: '^OPTIONS='
     line: OPTIONS='-u bind -t /var/lib/named'
 
-- import_tasks: directories-configuration.yml
+- name: create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - ['/var/lib/named/etc', '/var/lib/named/etc/bind',  '/var/lib/named/var/cache/bind', '/var/lib/named/var/run', '/var/lib/named/dev']
+
+- name: move bind9 configuration files
+  copy:
+    remote_src: yes
+    src: /etc/bind
+    dest: /var/lib/named/etc
+
+- name: remove old configuration files
+  file:
+    path: /etc/bind
+    state: absent
+
+- name: create symlink in /etc/bind
+  file:
+    src: /var/lib/named/etc/bind
+    dest: /etc/bind
+    state: link
+
 - import_tasks: create-devices.yml
+
+- name: set files and directories permissions
+  file:
+    path: "{{ item }}"
+    mode: 0666
+  with_items:
+    - ["/var/lib/named/dev/null", "/var/lib/named/dev/random"]
+
+- name: change owner to bind
+  file:
+    path: "{{ item }}"
+    owner: bind
+    group: bind
+    recurse: yes
+  with_items:
+    - ['/var/lib/named/var/', '/var/lib/named/etc/bind']
 
 - name: create named.conf.options
   template:
@@ -30,7 +69,7 @@
   template:
     src: templates/domain.zone.j2
     dest: /etc/bind/{{ DOMAIN }}
-    owner: root
-    group: root
+    owner: bind
+    group: bind
     mode: 0644
   notify: restart bind9

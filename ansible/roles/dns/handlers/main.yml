@@ -1,5 +1,5 @@
-- name: reboot
-  command: /sbin/reboot
+- name: apparmor reload
+  command: systemctl reload apparmor
 
 - name: restart bind9
-  command: systemctl bind9 restart
+  command: systemctl restart bind9
