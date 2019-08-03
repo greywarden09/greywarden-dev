@@ -1,10 +1,10 @@
 - hosts: all
   become: true
   roles:
-    - docker
-    - nexus
-    - jenkins
-    - graylog
-    - gitlab
-    - nginx
-    - dns
+    - {role: docker, tags: docker}
+    - {role: nexus, tags: nexus}
+    - {role: jenkins, tags: jenkins}
+    - {role: graylog, tags: graylog}
+    - {role: gitlab, tags: gitlab}
+    - {role: nginx, tags: nginx}
+    - {role: dns, tags: dns}

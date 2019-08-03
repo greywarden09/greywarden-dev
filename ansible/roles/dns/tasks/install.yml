@@ -1,0 +1,11 @@
+- name: install bind9
+  apt:
+    name: bind9
+    update_cache: yes
+
+- name: install selinux
+  apt:
+    name: selinux
+    update_cache: yes
+  notify: reboot
+

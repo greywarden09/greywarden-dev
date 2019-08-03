@@ -1,0 +1,14 @@
+$TTL    604800
+@ IN SOA ns1 root (
+        1 ; serial
+        604800      ; refresh
+        86400       ; retry
+        2419200     ; expire
+        10800      ) ; TTL
+    IN  NS  ns1
+    IN  A   {{ ansible_host }}
+
+ns1 IN  A   {{ ansible_host }}
+
+*   IN  A   {{ ansible_host }}
+
