@@ -6,5 +6,6 @@
     - {role: jenkins, tags: jenkins}
     - {role: graylog, tags: graylog}
     - {role: gitlab, tags: gitlab}
+    - {role: sonarqube, tags: sonarqube}
     - {role: nginx, tags: nginx}
     - {role: dns, tags: dns}

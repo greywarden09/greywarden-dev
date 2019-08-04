@@ -7,3 +7,5 @@
     volumes:
       - nexus-data:/nexus-data
     hostname: nexus
+    networks:
+      - name: env

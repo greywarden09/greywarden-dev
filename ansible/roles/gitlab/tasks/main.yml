@@ -9,5 +9,7 @@
       - gitlab-config:/etc/gitlab
       - gitlab-logs:/var/log/gitlab
     hostname: gitlab
+    networks:
+      - name: env
     env:
       GITLAB_OMNIBUS_CONFIG: "external_url '{{ GITLAB_EXTERNAL_URL }}'"

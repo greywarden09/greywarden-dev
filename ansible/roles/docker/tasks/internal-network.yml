@@ -1,0 +1,3 @@
+- name: create Docker internal network
+  docker_network:
+    name: env

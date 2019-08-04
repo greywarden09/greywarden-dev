@@ -35,5 +35,7 @@
     links:
       - mongo-graylog:mongo
       - elastic-graylog:elasticsearch
+    networks:
+      - name: env
     state: started
     hostname: graylog

@@ -6,3 +6,5 @@
     state: started
     volumes:
       - jenkins_home:/var/jenkins_home
+    networks:
+      - name: env
