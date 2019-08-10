@@ -1,10 +1,25 @@
+- name: copy Jenkins Dockerfile
+  copy:
+    src: files/Dockerfile
+    dest: /tmp/Dockerfile
+
+- name: build Jenkins image
+  docker_image:
+    build:
+      path: /tmp/
+    name: jenkins/jenkins-docker
+    tag: lts
+    source: build
+
 - name: create Jenkins container
   docker_container:
     name: jenkins
-    image: jenkins/jenkins:lts
+    image: jenkins/jenkins-docker:lts
     restart_policy: always
     state: started
+    recreate: yes
     volumes:
       - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - name: env
