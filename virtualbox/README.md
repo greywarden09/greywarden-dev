@@ -20,3 +20,5 @@ STORAGE_LOCATION="/home/mlas/VM/environment"
 | CPUS                                    | Amount of CPUs in VM                   |
 | SIZE                                    | Virtual disk's size                    |
 | STORAGE_LOCATION                        | Where should virtual disk be placed    |
+
+**Creating machine is not finished and can be broken.**
