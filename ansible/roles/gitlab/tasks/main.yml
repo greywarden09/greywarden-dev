@@ -1,6 +1,6 @@
 - name: create GitLab container
   docker_container:
-    name: gitlab
+    name: gitlab.{{ DOMAIN }}
     image: gitlab/gitlab-ce
     restart_policy: always
     state: started
@@ -10,7 +10,8 @@
       - gitlab-logs:/var/log/gitlab
     ports:
       - '2222:22'
-    hostname: gitlab
+    hostname: gitlab.{{ DOMAIN }}
+    networks_cli_compatible: yes
     networks:
       - name: env
     env:

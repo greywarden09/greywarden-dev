@@ -1,11 +1,12 @@
 - name: create container with Sonatype Nexus
   docker_container:
-    name: nexus
+    name: nexus.{{ DOMAIN }}
     image: sonatype/nexus3
     restart_policy: always
     state: started
     volumes:
       - nexus-data:/nexus-data
-    hostname: nexus
+    hostname: nexus.{{ DOMAIN }}
+    networks_cli_compatible: yes
     networks:
       - name: env

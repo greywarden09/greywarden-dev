@@ -14,7 +14,7 @@
 
 - name: create Jenkins container
   docker_container:
-    name: jenkins
+    name: jenkins.{{ DOMAIN }}
     image: jenkins/jenkins-docker:lts
     restart_policy: always
     state: started
@@ -25,3 +25,8 @@
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - name: env
+    hostname: jenkins.{{ DOMAIN }}
+    etc_hosts: >
+      {
+        "nexus.{{ DOMAIN }}": '172.17.0.1'
+      }
